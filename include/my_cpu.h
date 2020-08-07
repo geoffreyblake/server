@@ -115,7 +115,7 @@ void my_cpu_init(void);
   loop count in the range 200-300 brought best results.
 */
 
-int LF_BACKOFF(void)
+static inline int LF_BACKOFF(void)
 {
   unsigned i= my_cpu_relax_multiplier;
   while (i--)
@@ -127,7 +127,7 @@ int LF_BACKOFF(void)
   Run a delay loop while waiting for a shared resource to be released.
   @param delay originally, roughly microseconds on 100 MHz Intel Pentium
 */
-void ut_delay(unsigned delay)
+static inline void ut_delay(unsigned delay)
 {
   unsigned i= my_cpu_relax_multiplier / 4 * delay;
   HMT_low();
