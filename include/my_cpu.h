@@ -80,6 +80,8 @@ static inline void MY_RELAX_CPU(void)
 #endif
 #elif defined(_ARCH_PWR8)
   __ppc_get_timebase();
+#elif define(__aarch64__)
+  __asm__ __volatile__("isb" ::: "memory");
 #else
   int32 var, oldval = 0;
   my_atomic_cas32_strong_explicit(&var, &oldval, 1, MY_MEMORY_ORDER_RELAXED,
@@ -113,7 +115,7 @@ void my_cpu_init(void);
   loop count in the range 200-300 brought best results.
 */
 
-static inline int LF_BACKOFF(void)
+int LF_BACKOFF(void)
 {
   unsigned i= my_cpu_relax_multiplier;
   while (i--)
@@ -125,7 +127,7 @@ static inline int LF_BACKOFF(void)
   Run a delay loop while waiting for a shared resource to be released.
   @param delay originally, roughly microseconds on 100 MHz Intel Pentium
 */
-static inline void ut_delay(unsigned delay)
+void ut_delay(unsigned delay)
 {
   unsigned i= my_cpu_relax_multiplier / 4 * delay;
   HMT_low();
