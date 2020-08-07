@@ -80,7 +80,7 @@ static inline void MY_RELAX_CPU(void)
 #endif
 #elif defined(_ARCH_PWR8)
   __ppc_get_timebase();
-#elif define(__aarch64__)
+#elif defined(__aarch64__)
   __asm__ __volatile__("isb" ::: "memory");
 #else
   int32 var, oldval = 0;
